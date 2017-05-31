@@ -1,3 +1,4 @@
+
 Create a new folder for your project.
 add this file; webpack.config.js , code below;
 
@@ -41,7 +42,91 @@ Change webpack.config.js as following;
 >npm install -g webpack
 >webpack  , it will compile a bounce of code in app/js/index.min.js
 
+in package.json Add the next dependencies;
+"dependencies": { 
+  	"babel-loader": "^6.2.0",
+   	"babel-plugin-add-module-exports": "^0.1.2",
+   	"babel-plugin-react-html-attrs": "^2.0.0",
+   	"babel-plugin-transform-class-properties": "^6.3.13",
+   	"babel-plugin-transform-decorators-legacy": "^1.3.4",
+   	"babel-preset-es2015": "^6.3.13",
+   	"babel-preset-react": "^6.3.13",
+   	"babel-preset-stage-0": "^6.3.13",
+   	"react": "^0.14.6",
+   	"react-dom": "^0.14.6",
+   	"webpack": "^1.13.1",
+   	"webpack-dev-server": "^1.14.1"
+     },
+then run;
+>npm install
 
+este no va >npm install --save-dev react react-dom webpack webpack-dev-server babel-loader babel-core babel-preset-es2015 babel-preset-react
+
+In webpack.config.js add this module;
+entry: "./app/dist/index.js",
+  module:{
+    loaders:[
+    {
+      test: /\.jsx?$/,
+      exclude: /(node_modules!bower_components)/,
+      loader: 'babel-loader',
+      query: {
+      presets: ['react', 'es2015', 'stage-0'],
+      plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy']
+          }
+      }
+    ]
+  },
+
+Create app/index.html and the following;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React Course</title>
+</head>
+<body>
+	<div id="app"></div>
+	<script src="index.min.js"></script>
+</body>
+</html>
+
+Delete  dist/module1.js & module2.js
+ 
+>webpack
+
+IN package.json add the server for test;
+"scripts": {
+    
+"start": "./node_modules/.bin/webpack-dev-server --content-base app --inline --hot",
+    
+"test": "echo \"Error: no test specified\" && exit 1"
+  
+},
+Then run 
+>npm start  , Let's go to localhost:8080 "Hurray"
+
+Change dist/index.js to this;
+import React from "react";
+import ReactDom from "react-dom";
+
+class Layout extends React.Component {
+	constructor(){
+		super();
+		this.nombre = "Edward Almanzar";
+	}
+	obtenerNombre(){
+		return "Edward :)";
+	}
+	render() {
+		// return( <h1>Hola {this.nombre}</h1> );
+		return( <h1>Hola {this.obtenerNombre()}</h1> );
+	}
+}
+
+const app = document.getElementById('app');
+
+ReactDom.render(<Layout/>, app);
 
 
 
