@@ -1,0 +1,48 @@
+Create a new folder for your project.
+add this file; webpack.config.js , code below;
+
+var debug = process.env.NODE_ENV !== "production";
+var webpack = require('webpack');
+
+module.exports = {
+  context: __dirname,
+  devtool: debug ? "inline-sourcemap" : null,
+  entry: "./js/scripts.js",
+  output: {
+    path: __dirname + "/js",
+    filename: "scripts.min.js"
+  },
+  plugins: debug ? [] : [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+  ],
+};
+
+=========================
+>npm init
+>npm install -s webpack
+
+Create new folders app/dist, insidie disk create files index.js, 
+modulo1.js, modulo2.js AND app/js, inside index.min.js
+
+Inside modulo1.js add;
+	console.log("modulo1");
+Inside index.js add;
+	require('./modulo1.js');
+	require('./modulo2.js');
+
+Change webpack.config.js as following;
+  entry: "./app/dist/index.js",
+  output: {
+    path: __dirname + "/app/js",
+    filename: "index.min.js"
+
+>npm install -g webpack
+>webpack  , it will compile a bounce of code in app/js/index.min.js
+
+
+
+
+
+ 
